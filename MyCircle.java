@@ -3,7 +3,16 @@ public class MyCircle{
     private Point  centre; 
 
 	/** The implementation of the Point class in Point.java file **/
-	
+    public MyCircle(double r, int x, int y)
+
+    { 
+
+    this.radius = r;
+
+    this.centre = new Point(x,y);
+
+    }
+    
 	public double getRadius(){
 		return radius;
 	}
