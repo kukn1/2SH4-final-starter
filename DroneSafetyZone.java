@@ -40,16 +40,104 @@ public class DroneSafetyZone
 {
 	public static void main(String[] args) {
 		
+		MyCircle[] swarm = new MyCircle[100];
+		
+		
+		DroneSafetyZone test = new DroneSafetyZone();
+		
+		for (int i = 0; i<100;i++) {
+			
+			swarm[i] = new MyCircle(i/100,i*i,i*i+1);
+		}
+				
+		String test1 =  test.SafteyAlert(swarm);
+		
+		if (test1.equals("Green")) System.out.println("True");
+		else System.out.println("False");
+		
+		for (int i = 0; i<100;i++) {
+			
+			swarm[i] = new MyCircle(i,i,i);
+		}
+				
+		String test2 =  test.SafteyAlert(swarm);
+		
+		if (test2.equals("Red")) System.out.println("True");
+		else System.out.println("False");
+		
+		for (int i = 0; i<100;i++) {
+			
+			swarm[i] = new MyCircle(i/100,i*i+1000,i*i+1000);
+		}
+		
+		swarm[98] = new MyCircle(1,1,1);
+		swarm[99] = new MyCircle(1,3,1);
+		
+				
+		String test3 =  test.SafteyAlert(swarm);
+		
+		if (test3.equals("Yellow")) System.out.println("True");
+		else System.out.println(test3);
 	}
 	
 	
 	public String SafteyAlert(MyCircle[] swarm){
 		
+		for (int i = 0; i<swarm.length;i++) {
+			for (int j = 0; j<swarm.length; j++) {
+				
+				if (i != j && intersection(swarm[i],swarm[j]) == 1) {
+				
+					return "Red";
+					
+				}
+			}
+		}
+
+		for (int i = 0; i<swarm.length;i++) {
+			for (int j = 0; j<swarm.length; j++) {
+			
+				if ( i!=j && tangent(swarm[i],swarm[j]) == 1) {
 		
+					return "Yellow";
+			
+				}
+			}
+		}
+
 		
-		
+		return "Green";
 		
 	}
 	
-}
+	public int intersection(MyCircle cir1, MyCircle cir2) {
+		
+		int num =0;
+		
+		double radsum = cir1.getRadius() + cir2.getRadius();
+		double distx = cir1.getX() - cir2.getX();
+		double disty = cir1.getY() - cir2.getY();
+		double dist = Math.sqrt(distx*distx + disty*disty);
+		
+		if (radsum > dist) num=1;
+		
+		return num;
+		
+	}
+	
+	public int tangent(MyCircle cir1, MyCircle cir2) {
+		
+		int num =0;
+		
+		double radsum = cir1.getRadius() + cir2.getRadius();
+		double distx = cir1.getX() - cir2.getX();
+		double disty = cir1.getY() - cir2.getY();
+		double dist = Math.sqrt(distx*distx + disty*disty);
+		
+		if (radsum == dist) num=1;
+		
+		return num;
+		
+	}
 
+}
